@@ -1,20 +1,27 @@
-package bstorm.akimts.demospring.presentation;
+package bstorm.akimts.demospring.demo.presentation;
 
-import bstorm.akimts.demospring.metier.PersonService;
-import bstorm.akimts.demospring.model.Person;
-import org.springframework.beans.factory.InitializingBean;
+import bstorm.akimts.demospring.demo.annotation.Impl;
+import bstorm.akimts.demospring.demo.metier.PersonService;
+import bstorm.akimts.demospring.demo.metier.dto.PersonDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
-public class Menu /* implements InitializingBean */ {
+@Component
+@Profile("demo")
+public class Menu{
 
-    private final PersonService service;
-    private final Scanner sc;
+    @Autowired @Impl
+    private /* final */ PersonService service;
+    @Autowired
+    private /* final */ Scanner sc;
 
-    public Menu(PersonService service, Scanner sc) {
-        this.service = service;
-        this.sc = sc;
-    }
+//    public Menu(@Mock PersonService service, Scanner sc) {
+//        this.service = service;
+//        this.sc = sc;
+//    }
 
     public void start(){
 
@@ -55,7 +62,7 @@ public class Menu /* implements InitializingBean */ {
         service.getAll().forEach(System.out::println);
     }
     private void add(){
-        Person.PersonBuilder builder = Person.builder();
+        PersonDTO.PersonDTOBuilder builder = PersonDTO.builder();
 
         System.out.print("nom : ");
         builder.nom( sc.nextLine() );
@@ -65,9 +72,4 @@ public class Menu /* implements InitializingBean */ {
         service.add( builder.build() );
     }
 
-//    @Override
-//    public void afterPropertiesSet() throws Exception {
-//        System.out.println("afterPropertiesSet");
-//        start();
-//    }
 }
